@@ -1,0 +1,5 @@
+clients:
+    current_weather_data:
+        base_url: "http://api.openweathermap.org/data/2.5/weather"
+        headers:
+            Accept: "application/json"

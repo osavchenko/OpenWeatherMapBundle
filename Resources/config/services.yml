@@ -1,0 +1,4 @@
+services:
+    savchenko_open_weather_map.current_weather:
+            class: Savchenko\Bundle\OpenWeatherMapBundle\Api\CurrentWeatherData
+            arguments: ["%savchenko.open_weather_map.api_key%", "@guzzle.client.current_weather_data"]

@@ -1,0 +1,28 @@
+{
+    "name": "osavchenko/openweathermap_api",
+    "description": "OpenWeatherMap API Bundle",
+    "authors": [
+        {
+            "name": "Oleksandr Savchenko",
+            "email": "savhcneko.oleksandr.ua@gmail.com"
+        }
+    ],
+    "keywords": [
+        "OpenWeatherMap", "weather", "weather api", "symfony weather bundle"
+    ],
+    "license": "GPL-3.0",
+    "type": "symfony-bundle",
+    "autoload": {
+        "psr-4": {
+            "Savchenko\\Bundle\\OpenWeatherMapBundle": ""
+        }
+    },
+    "require": {
+        "php": ">=7.0",
+        "symfony/symfony": "3.0.*",
+        "eightpoints/guzzle-bundle": "~4.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.3"
+    }
+}
