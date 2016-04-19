@@ -1,6 +1,8 @@
 OpenWeatherMap Bundle
 =====================
 
+[![Build Status](https://travis-ci.org/osavchenko/OpenWeatherMapBundle.svg?branch=master)](https://travis-ci.org/osavchenko/OpenWeatherMapBundle)
+
 A Symfony 3 bundle to retrieve and parse global weather data from OpenWeatherMap.org.
 
 License
