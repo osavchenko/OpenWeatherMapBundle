@@ -19,11 +19,12 @@
     },
     "require": {
         "php": ">=7.0",
-        "symfony/symfony": "3.0.*",
+        "symfony/intl": "~3.0",
         "eightpoints/guzzle-bundle": "~4.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.3"
+        "phpunit/phpunit": "*",
+        "symfony/config": "~2.3|~3.0"
     },
     "extra": {
         "branch-alias": {
