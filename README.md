@@ -5,6 +5,7 @@ OpenWeatherMap Bundle
 [![Build Status](https://scrutinizer-ci.com/g/osavchenko/OpenWeatherMapBundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/osavchenko/OpenWeatherMapBundle/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/osavchenko/OpenWeatherMapBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/osavchenko/OpenWeatherMapBundle/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/osavchenko/OpenWeatherMapBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/osavchenko/OpenWeatherMapBundle/?branch=master)
+[![Dependency Status](https://www.versioneye.com/user/projects/57173779fcd19a00415b1f52/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57173779fcd19a00415b1f52)
 
 A Symfony 3 bundle to retrieve and parse global weather data from OpenWeatherMap.org.
 
