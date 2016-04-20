@@ -91,13 +91,9 @@ class CurrentWeatherData
      */
     public function loadByCityName(string $cityName, string $countryCode = null) : \stdClass
     {
-        if ($countryCode !== null) {
-            $this->validateCountryCode($countryCode);
-
-            $cityName .= ',' . $countryCode;
-        }
-
-        return json_decode($this->sendRequest(['q' => $cityName])->getBody());
+        return json_decode(
+            $this->sendRequest(['q' => $this->addCountryCodeToBase($cityName, $countryCode)])->getBody()
+        );
     }
 
     /**
@@ -139,12 +135,27 @@ class CurrentWeatherData
      */
     public function loadByZipCode(string $zipCode, string $countryCode = null) : \stdClass
     {
+        return json_decode(
+            $this->sendRequest(['zip' => $this->addCountryCodeToBase($zipCode, $countryCode)])->getBody()
+        );
+    }
+
+    /**
+     * Add country code to city name or zip code
+     *
+     * @param string $base
+     * @param string|null $countryCode
+     * @return string
+     * @throws InvalidCountryCodeException
+     */
+    private function addCountryCodeToBase(string $base, string $countryCode = null) : string
+    {
         if ($countryCode !== null) {
             $this->validateCountryCode($countryCode);
 
-            $zipCode .= ',' . $countryCode;
+            $base .= ',' . $countryCode;
         }
 
-        return json_decode($this->sendRequest(['zip' => $zipCode])->getBody());
+        return $base;
     }
 }

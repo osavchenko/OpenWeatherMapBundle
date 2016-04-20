@@ -16,7 +16,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         ];
 
         $processor = new Processor();
-        $processedConfig = $processor->processConfiguration(new Configuration(true), $config);
+        $processedConfig = $processor->processConfiguration(new Configuration(), $config);
 
         self::assertEquals(array_merge($config['savchenko_open_weather_map']), $processedConfig);
     }

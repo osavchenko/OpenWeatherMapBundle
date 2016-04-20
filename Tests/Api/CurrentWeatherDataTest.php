@@ -19,6 +19,11 @@ class CurrentWeatherDataTest extends \PHPUnit_Framework_TestCase
      */
     protected $currentWeatherData;
 
+    /**
+     * Get OpenWeatherMap response example
+     *
+     * @return string
+     */
     protected function getWeatherData()
     {
         return json_encode([
@@ -57,6 +62,9 @@ class CurrentWeatherDataTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function setUp()
     {
         $this->client = self::getMockBuilder('GuzzleHttp\Client')
@@ -70,23 +78,38 @@ class CurrentWeatherDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Savchenko\Bundle\OpenWeatherMapBundle\Exception\BadRequestException
-     * @expectedExceptionMessage You doesn't set APPID parameter or it has incorrect value
+     * Override Guzzle get() method to throw exception
+     *
+     * @param string $message
+     * @param int $statusCode
+     * @throws \InvalidArgumentException
      */
-    public function testAppIdProblem()
+    protected function overrideClientGetMethodAndSendRequest(string $message, int $statusCode)
     {
         $this->client->method('get')
             ->willThrowException(
                 new ClientException(
-                    'Invalid API key. Please see http://openweathermap.org/faq#error401 for more info.',
+                    $message,
                     new Request('GET', 'http://api.openweathermap.org/data/2.5/weather'),
-                    new Response(401)
+                    new Response($statusCode)
                 )
             );
 
         $this->currentWeatherData = new CurrentWeatherData('abc', $this->client);
 
         $this->currentWeatherData->loadByCityName('London');
+    }
+
+    /**
+     * @expectedException \Savchenko\Bundle\OpenWeatherMapBundle\Exception\BadRequestException
+     * @expectedExceptionMessage You doesn't set APPID parameter or it has incorrect value
+     */
+    public function testAppIdProblem()
+    {
+        $this->overrideClientGetMethodAndSendRequest(
+            'Invalid API key. Please see http://openweathermap.org/faq#error401 for more info.',
+            401
+        );
     }
 
     /**
@@ -95,18 +118,7 @@ class CurrentWeatherDataTest extends \PHPUnit_Framework_TestCase
      */
     public function testPaidFeatures()
     {
-        $this->client->method('get')
-            ->willThrowException(
-                new ClientException(
-                    '',
-                    new Request('GET', 'http://api.openweathermap.org/data/2.5/weather'),
-                    new Response(403)
-                )
-            );
-
-        $this->currentWeatherData = new CurrentWeatherData('abc', $this->client);
-
-        $this->currentWeatherData->loadByCityName('London');
+        $this->overrideClientGetMethodAndSendRequest('', 403);
     }
 
     /**
@@ -114,18 +126,7 @@ class CurrentWeatherDataTest extends \PHPUnit_Framework_TestCase
      */
     public function testCatchNonExpectedException()
     {
-        $this->client->method('get')
-            ->willThrowException(
-                new ClientException(
-                    '',
-                    new Request('GET', 'http://api.openweathermap.org/data/2.5/weather'),
-                    new Response(404)
-                )
-            );
-
-        $this->currentWeatherData = new CurrentWeatherData('abc', $this->client);
-
-        $this->currentWeatherData->loadByCityName('London');
+        $this->overrideClientGetMethodAndSendRequest('', 404);
     }
 
     public function testLoadByCityNameWithoutCountry()
