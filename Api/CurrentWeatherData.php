@@ -41,7 +41,8 @@ class CurrentWeatherData
      * @throws BadRequestException
      * @throws GuzzleException
      */
-    private function sendRequest(array $params) : ResponseInterface {
+    private function sendRequest(array $params) : ResponseInterface
+    {
         $params = array_merge(['appid' => $this->apiKey], $params);
 
         try {
@@ -84,15 +85,15 @@ class CurrentWeatherData
      *
      * @param string $cityName
      * @param string $countryCode optional country code in ISO 3166-1 alpha-2 format
-     * @return \stdClass
+     * @return CurrentWeatherDataResult
      * @throws GuzzleException on request exception
      * @throws BadRequestException
      * @throws InvalidCountryCodeException on incorrect country code
      */
-    public function loadByCityName(string $cityName, string $countryCode = null) : \stdClass
+    public function loadByCityName(string $cityName, string $countryCode = null) : CurrentWeatherDataResult
     {
-        return json_decode(
-            $this->sendRequest(['q' => $this->addCountryCodeToBase($cityName, $countryCode)])->getBody()
+        return CurrentWeatherDataResult::fromApiResponse(
+            $this->sendRequest(['q' => $this->addCountryCodeToBase($cityName, $countryCode)])
         );
     }
 
@@ -100,27 +101,27 @@ class CurrentWeatherData
      * Call by city id
      *
      * @param string $cityCode
-     * @return \stdClass
+     * @return CurrentWeatherDataResult
      * @throws GuzzleException on request exception
      * @throws BadRequestException
      */
-    public function loadByCityId(string $cityCode) : \stdClass
+    public function loadByCityId(string $cityCode) : CurrentWeatherDataResult
     {
-        return json_decode($this->sendRequest(['id' => $cityCode])->getBody());
+        return CurrentWeatherDataResult::fromApiResponse($this->sendRequest(['id' => $cityCode]));
     }
 
     /**
      * Call by geographic coordinates
      *
-     * @param float $lat location latitude 
+     * @param float $lat location latitude
      * @param float $lon location longitude
-     * @return \stdClass
+     * @return CurrentWeatherDataResult
      * @throws GuzzleException on request exception
      * @throws BadRequestException
      */
-    public function loadByGeographicCoordinates(float $lat, float $lon) : \stdClass
+    public function loadByGeographicCoordinates(float $lat, float $lon) : CurrentWeatherDataResult
     {
-        return json_decode($this->sendRequest(['lat' => $lat, 'lon' => $lon])->getBody());
+        return CurrentWeatherDataResult::fromApiResponse($this->sendRequest(['lat' => $lat, 'lon' => $lon]));
     }
 
     /**
@@ -128,15 +129,15 @@ class CurrentWeatherData
      *
      * @param string $zipCode zip code
      * @param string $countryCode optional country code in ISO 3166-1 alpha-2 format
-     * @return \stdClass
+     * @return CurrentWeatherDataResult
      * @throws GuzzleException on request exception
      * @throws BadRequestException
      * @throws InvalidCountryCodeException on incorrect country code
      */
-    public function loadByZipCode(string $zipCode, string $countryCode = null) : \stdClass
+    public function loadByZipCode(string $zipCode, string $countryCode = null) : CurrentWeatherDataResult
     {
-        return json_decode(
-            $this->sendRequest(['zip' => $this->addCountryCodeToBase($zipCode, $countryCode)])->getBody()
+        return CurrentWeatherDataResult::fromApiResponse(
+            $this->sendRequest(['zip' => $this->addCountryCodeToBase($zipCode, $countryCode)])
         );
     }
 
